@@ -72,6 +72,7 @@ class CRM_Renewmembership_Renew {
     $contribution['receive_date'] = $receiveDate->format('YmdHis');
     unset($contribution['payment_instrument']);
     unset($contribution['contribution_id']);
+    unset($contribution['invoice_id']);
     unset($contribution['id']);
     return $contribution;
   }

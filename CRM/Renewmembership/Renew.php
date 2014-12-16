@@ -70,6 +70,7 @@ class CRM_Renewmembership_Renew {
     
     $receiveDate = new DateTime();
     $contribution['receive_date'] = $receiveDate->format('YmdHis');
+    $contribution['contribution_status_id'] = 2;//pending
     unset($contribution['payment_instrument']);
     unset($contribution['contribution_id']);
     unset($contribution['invoice_id']);

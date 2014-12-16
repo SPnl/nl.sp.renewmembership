@@ -16,7 +16,7 @@ return array (
       'run_frequency' => 'Hourly',
       'api_entity' => 'Membership',
       'api_action' => 'SpRenew',
-      'parameters' => '',
+      'parameters' => 'offset_days=15&limit=1000',
     ),
   ),
 );

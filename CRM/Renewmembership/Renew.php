@@ -71,11 +71,28 @@ class CRM_Renewmembership_Renew {
     $receiveDate = new DateTime();
     $contribution['receive_date'] = $receiveDate->format('YmdHis');
     $contribution['contribution_status_id'] = 2;//pending
+    $instrument_id = $this->getPaymenyInstrument($contribution);
     unset($contribution['payment_instrument']);
+    unset($params['instrument_id']);
+    if ($instrument_id) {
+      $params['contribution_payment_instrument_id'] = $instrument_id;
+    }
     unset($contribution['contribution_id']);
     unset($contribution['invoice_id']);
     unset($contribution['id']);
     return $contribution;
+  }
+  
+  protected function getPaymenyInstrument($contribution) {
+    if (empty($contribution['instrument_id'])) {
+      return false;
+    }
+    
+    $instrument_id = CRM_Core_OptionGroup::getValue('payment_instrument', $contribution['instrument_id'], 'id', 'Integer');
+    if (empty($instrument_id)) {
+      return false;
+    }
+    return $instrument_id;
   }
   
   protected function findMemberships(DateTime $minEndDate, DateTime $maxEndDate, $limit) {

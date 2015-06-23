@@ -17,6 +17,7 @@ return array (
       'api_entity' => 'Membership',
       'api_action' => 'SpRenew',
       'parameters' => 'offset_days=15',
+      'is_active' => 0,
     ),
   ),
 );

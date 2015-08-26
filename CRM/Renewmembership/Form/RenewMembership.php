@@ -37,6 +37,12 @@ class CRM_Renewmembership_Form_RenewMembership extends CRM_Core_Form {
 
     $selector = new CRM_Renewmembership_Selector();
     $original_where = $selector->getWhere();
+    if (!isset($formValues['member_membership_type_id'])) {
+      $formValues['member_membership_type_id'] = array();
+    }
+    if (!isset($formValues['member_status_id'])) {
+      $formValues['member_status_id'] = array();
+    }
     $selector->setData(array_keys($formValues['member_membership_type_id']), array_keys($formValues['member_status_id']), $formValues[$fromRange], $formValues[$toRange]);
     $selector->store();
     $where = $selector->getWhere();

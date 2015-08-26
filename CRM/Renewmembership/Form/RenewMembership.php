@@ -36,8 +36,8 @@ class CRM_Renewmembership_Form_RenewMembership extends CRM_Core_Form {
     CRM_Contact_BAO_Query::fixDateValues($formValues[$relative], $formValues[$fromRange], $formValues[$toRange]);
 
     $selector = new CRM_Renewmembership_Selector();
-    $selector->setData(array_keys($formValues['member_membership_type_id']), array_keys($formValues['member_status_id']), $formValues[$fromRange], $formValues[$toRange]);
     $original_where = $selector->getWhere();
+    $selector->setData(array_keys($formValues['member_membership_type_id']), array_keys($formValues['member_status_id']), $formValues[$fromRange], $formValues[$toRange]);
     $selector->store();
     $where = $selector->getWhere();
 

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+    <item>
+        <path>civicrm/member/renew</path>
+        <page_callback>CRM_Renewmembership_Form_RenewMembership</page_callback>
+        <title>Verniew lidmaatschappen</title>
+        <access_arguments>edit memberships</access_arguments>
+    </item>
+</menu>

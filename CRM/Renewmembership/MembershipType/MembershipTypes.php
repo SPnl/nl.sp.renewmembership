@@ -1,6 +1,6 @@
 <?php
 
-class CRM_Renewmembership_MembershipType_MembershipTypes implements CRM_Renewmembership_MembershipType_Config {
+class CRM_Renewmembership_MembershipType_MembershipTypes {
   
   protected $membership_types = array();
   

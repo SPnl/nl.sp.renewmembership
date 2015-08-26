@@ -48,14 +48,15 @@ class CRM_Renewmembership_Renew {
     $params['id'] = $membership_id;
     $params['end_date'] = $newEndDate->format('Ymd');
     civicrm_api3('Membership', 'create', $params);
-    
-    $contribution = self::getRenewalPayment($contributionId);
-    if ($contribution) {
-      $result = civicrm_api3('Contribution', 'create', $contribution);
-      
-      $membershipPayment['contribution_id'] = $result['id'];
-      $membershipPayment['membership_id'] = $membership_id;
-      civicrm_api3('MembershipPayment', 'create', $membershipPayment);
+    if ($contributionId) {
+      $contribution = self::getRenewalPayment($contributionId);
+      if ($contribution) {
+        $result = civicrm_api3('Contribution', 'create', $contribution);
+
+        $membershipPayment['contribution_id'] = $result['id'];
+        $membershipPayment['membership_id'] = $membership_id;
+        civicrm_api3('MembershipPayment', 'create', $membershipPayment);
+      }
     }
   }
   

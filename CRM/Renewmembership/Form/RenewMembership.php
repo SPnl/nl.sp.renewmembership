@@ -37,15 +37,14 @@ class CRM_Renewmembership_Form_RenewMembership extends CRM_Core_Form {
 
     $selector = new CRM_Renewmembership_Selector();
     $selector->setData(array_keys($formValues['member_membership_type_id']), array_keys($formValues['member_status_id']), $formValues[$fromRange], $formValues[$toRange]);
+    $original_where = $selector->getWhere();
     $selector->store();
     $where = $selector->getWhere();
-
-
 
     $count = CRM_Core_DAO::singleValueQuery("SELECT COUNT(*) FROM civicrm_membership ".$where);
     $this->assign('found', $count);
 
-    if (isset($_POST['continue']) && !empty($_POST['continue'])) {
+    if ($where == $original_where && isset($_POST['continue']) && !empty($_POST['continue'])) {
       $queue = CRM_Queue_Service::singleton()->create(array(
         'type' => 'Sql',
         'name' => 'nl.sp.renewmembership',

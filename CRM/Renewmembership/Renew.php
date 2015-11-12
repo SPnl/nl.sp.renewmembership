@@ -31,7 +31,7 @@ class CRM_Renewmembership_Renew {
       LEFT JOIN `civicrm_contribution` `c` ON `mp`.`contribution_id` = `c`.`id` AND c.receive_date <= civicrm_membership.end_date
       ".$where."
       GROUP BY `civicrm_membership`.`id`
-      LIMIT 0, ".$limit);
+      LIMIT 0, ".$limit." FOR UPDATE");
     while($dao->fetch()) {
       $currentEndDate = new DateTime($dao->end_date);
       $newEndDate = $type_config->getNewEndDate($currentEndDate, $dao->membership_type_id);
@@ -47,6 +47,7 @@ class CRM_Renewmembership_Renew {
     //update membership end date
     $params['id'] = $membership_id;
     $params['end_date'] = $newEndDate->format('Ymd');
+    $renewTransaction = new CRM_Core_Transaction();
     civicrm_api3('Membership', 'create', $params);
     if ($contributionId) {
       $contribution = self::getRenewalPayment($contributionId);
@@ -58,6 +59,7 @@ class CRM_Renewmembership_Renew {
         civicrm_api3('MembershipPayment', 'create', $membershipPayment);
       }
     }
+    $renewTransaction->commit();
   }
   
   protected static function getRenewalPayment($contributionId) {

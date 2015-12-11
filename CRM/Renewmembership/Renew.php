@@ -51,6 +51,12 @@ WHERE civicrm_membership.id = %1
 ORDER BY c.receive_date DESC
 LIMIT 0, 1 FOR UPDATE", array(1=>array($membership_id, 'Integer')));
 
+    //update membership end date
+    $params['id'] = $membership_id;
+    $params['end_date'] = $newEndDate->format('Ymd');
+    $renewTransaction = new CRM_Core_Transaction();
+    civicrm_api3('Membership', 'create', $params);
+
     if ($dao->fetch()) {
       $contribution = self::getRenewalPayment($dao->contribution_id);
       if ($contribution) {
@@ -61,12 +67,6 @@ LIMIT 0, 1 FOR UPDATE", array(1=>array($membership_id, 'Integer')));
         civicrm_api3('MembershipPayment', 'create', $membershipPayment);
       }
     }
-
-    //update membership end date
-    $params['id'] = $membership_id;
-    $params['end_date'] = $newEndDate->format('Ymd');
-    $renewTransaction = new CRM_Core_Transaction();
-    civicrm_api3('Membership', 'create', $params);
 
     $renewTransaction->commit();
   }

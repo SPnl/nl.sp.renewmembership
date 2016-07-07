@@ -95,7 +95,7 @@ LIMIT 0, 1 FOR UPDATE", array(1=>array($membership_id, 'Integer')));
     unset($contribution['payment_instrument']);
     unset($contribution['instrument_id']);
     if ($instrument_id) {
-      $contribution['contribution_payment_instrument_id'] = $instrument_id;
+      $contribution['payment_instrument_id'] = $instrument_id;
     }
     unset($contribution['contribution_id']);
     unset($contribution['invoice_id']);

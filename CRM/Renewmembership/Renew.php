@@ -103,6 +103,9 @@ LIMIT 0, 1 FOR UPDATE", array(1=>array($membership_id, 'Integer')));
     unset($contribution['contribution_id']);
     unset($contribution['invoice_id']);
     unset($contribution['id']);
+    unset($contribution['soft_credit']);
+    unset($contribution['soft_credit_to']);
+    unset($contribution['soft_credit_id']);
     return $contribution;
   }
   

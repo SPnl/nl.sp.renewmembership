@@ -8,50 +8,21 @@ require_once 'renewmembership.civix.php';
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_navigationMenu
  */
 function renewmembership_civicrm_navigationMenu( &$params ) {
-  $maxKey = _renewmembership_getMenuKeyMax($params);
-
-  $parent =_renewmembership_get_parent_id_navigation_menu($params, 'Memberships');
-
-  $parent['child'][$maxKey+1] = array (
-    'attributes' => array (
-      "label"=> ts('Verniew lidmaatschappen'),
-      "name"=> ts('Vernieuw lidmaatschappen'),
-      "url"=> "civicrm/member/renew",
-      "permission" => "edit memberships",
-      "parentID" => $parent['attributes']['navID'],
-      "active" => 1,
-    ),
-    'child' => array(),
-  );
-}
-
-function _renewmembership_get_parent_id_navigation_menu(&$menu, $path, &$parent = NULL) {
-  // If we are done going down the path, insert menu
-  if (empty($path)) {
-    return $parent;
-  } else {
-    // Find an recurse into the next level down
-    $found = false;
-    $path = explode('/', $path);
-    $first = array_shift($path);
-    foreach ($menu as $key => &$entry) {
-      if ($entry['attributes']['name'] == $first) {
-        if (!$entry['child']) $entry['child'] = array();
-        $found = _renewmembership_get_parent_id_navigation_menu($entry['child'], implode('/', $path), $entry);
-      }
-    }
-    return $found;
-  }
-}
-
-function _renewmembership_getMenuKeyMax($menuArray) {
-  $max = array(max(array_keys($menuArray)));
-  foreach($menuArray as $v) {
-    if (!empty($v['child'])) {
-      $max[] = _renewmembership_getMenuKeyMax($v['child']);
+  foreach ($params as &$menu) {
+    if (array_key_exists('attributes', $menu) && $menu['attributes']['name'] == 'Memberships') {
+      $menu['child'][$maxKey+1] = array (
+        'attributes' => array (
+          "label"=> ts('Verniew lidmaatschappen'),
+          "name"=> ts('Vernieuw lidmaatschappen'),
+          "url"=> "civicrm/member/renew",
+          "permission" => "edit memberships",
+          "parentID" => $menu['attributes']['navID'],
+          "active" => 1,
+        ),
+        'child' => array(),
+      );
     }
   }
-  return max($max);
 }
 
 /**
